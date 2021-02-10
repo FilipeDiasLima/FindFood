@@ -17,7 +17,6 @@ import { Container,
    Contacts,
    Phone,
    LinkWeb,
-   Description 
 } from './styles';
 
 const RestaurantInfo = () => {
@@ -35,6 +34,10 @@ const RestaurantInfo = () => {
         <Tag>Almoço</Tag>
         <Tag>Jantar</Tag>
         <Tag>Café</Tag>
+        <Tag>Café</Tag>
+        <Tag>Café</Tag>
+        <Tag>Café</Tag>
+        <Tag>Café</Tag> 
       </Tags>
       <RestaurantImages>
         <ModalImg imgSrc={restaurant1} />      
@@ -53,9 +56,6 @@ const RestaurantInfo = () => {
           <a target='_blank' href='/home'>https://jorjlinsrestaurant.com</a>
         </LinkWeb>
       </Contacts>
-      <Description>
-        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
-      </Description>
     </Container>
   )
 }

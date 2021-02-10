@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
-  width: 32%;
+  width: 100%;
 `;
 
 export const Header = styled.div`
@@ -29,14 +29,17 @@ export const HeaderText = styled.div`
 
 export const Tags = styled.div`
   display: flex;
-  margin-top: 40px;
+  margin-top: 5px;
   flex-direction: row;
-  justify-content: space-between;
-  max-width: 55%;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: left;
+  max-width: 100%;
 `;
 
 export const Tag = styled.div`
   display: flex;
+  margin-top: 3px;
   align-items: center;
   justify-content: center;
   background: #242930;
@@ -45,6 +48,8 @@ export const Tag = styled.div`
   width: 100px;
   font-weight: bold;
   font-size: 14px;
+  box-shadow: 0px 0px 10px 3px rgba(0, 0, 0, 0.13);
+  margin-left: 5px;
 `;
 
 export const RestaurantImages = styled.div`
@@ -94,7 +99,7 @@ export const MiniImages = styled.div`
 export const Contacts = styled.div`
   display: flex;
   flex-direction: column;
-  margin-top: 60px;
+  margin-top: 30px;
 `;
 
 export const Phone = styled.div`
@@ -118,24 +123,6 @@ export const LinkWeb = styled.div`
     margin-left: 20px;
     text-decoration: none;
     color: #DFDFE3;
-    font-size: 18px;
-  }
-`;
-
-export const Description = styled.div`
-  display: flex;
-  margin-top: 40px;
-  justify-content: flex-start;
-  align-items: flex-start;
-  border: 2px solid #DFDFE3;
-  box-sizing: border-box;
-  border-radius: 30px;
-  width: 100%;
-  height: 180px;
-  padding: 20px 18px;
-
-  > p {
-    text-align: left;
     font-size: 18px;
   }
 `;

@@ -18,3 +18,9 @@ export const Container = styled.div`
     background-size: cover;
   }
 `;
+
+export const InfoContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 32%;
+`;
