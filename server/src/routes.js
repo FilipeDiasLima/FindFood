@@ -21,16 +21,18 @@ routes.delete('/users', UserController.delete);
 // sessions
 routes.post('/sessions', SessionController.store);
 
-// need authorization 
-routes.use(authMiddleware);
-
-// points
-routes.post('/points', upload.single('image'), upload.single('image1'), upload.single('image2'), PointController.store);
-routes.get('/points', PointController.index);
-routes.get('/points/:id', PointController.show);
-routes.delete('/points/:id', PointController.delete);
-
 // filters
 routes.get('/filters', FilterController.index);
+
+// points
+routes.get('/points', PointController.index);
+routes.get('/points/:id', PointController.show);
+
+// need authorization 
+// routes.use(authMiddleware);
+
+// points
+routes.post('/points', upload.single('image'), PointController.store);
+routes.delete('/points/:id', PointController.delete);
 
 module.exports = routes;

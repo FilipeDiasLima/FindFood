@@ -18,6 +18,7 @@ const Container = styled.button`
   align-items: center;
   justify-content: center;
   max-width: 188px;
+  height: 50px;
   width: 100%;
   background: #2E353F;
   border: 2px solid #47B74B;

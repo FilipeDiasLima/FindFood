@@ -1,3 +1,4 @@
+
 exports.seed = function (knex) {
   // Deletes ALL existing entries
   return knex('filters').del()
@@ -7,7 +8,6 @@ exports.seed = function (knex) {
         { name: 'Café da manhã' },
         { name: 'Almoço' },
         { name: 'Lanche' },
-        { name: 'Café' },
         { name: 'Jantar' },
         { name: 'Delivery' },
         { name: 'Reserva' },

@@ -1,6 +1,6 @@
 .ReactModal__Overlay {
   opacity: 0;
-  transition: all 300ms ease-in-out;
+  transition: all 200ms ease-in-out;
 }
 
 .ReactModal__Overlay--after-open {
@@ -11,10 +11,4 @@
 .ReactModal__Overlay--before-close {
   opacity: 0;
   transform: translateX(-100px);
-}
-
-.imgModalOpen {
-  border-radius: 30px;
-  width: 930px;
-  height: 550px;
 }

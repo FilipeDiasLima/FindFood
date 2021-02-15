@@ -39,17 +39,17 @@ export const Tags = styled.div`
 
 export const Tag = styled.div`
   display: flex;
-  margin-top: 3px;
+  margin-top: 20px;
   align-items: center;
   justify-content: center;
   background: #242930;
-  padding: 8px 10px;
-  border-radius: 15px;
-  width: 100px;
+  padding: 8px 5px;
+  border-radius: 7px;
+  width: 120px;
   font-weight: bold;
   font-size: 14px;
   box-shadow: 0px 0px 10px 3px rgba(0, 0, 0, 0.13);
-  margin-left: 5px;
+  margin-left: 10px;
 `;
 
 export const RestaurantImages = styled.div`
@@ -60,8 +60,8 @@ export const RestaurantImages = styled.div`
   margin-top: 20px;
 
   > img {
-    width: 380px;
-    height: 217px;
+    width: 530px;
+    height: 290px;
     filter: drop-shadow(0px 10px 7px rgba(0, 0, 0, 0.25));
     border-radius: 20px;
     transition: transform 0.3s;
@@ -79,7 +79,7 @@ export const MiniImages = styled.div`
 
   > img {
     width: 175px;
-    height: 93px;
+    height: 98px;
     opacity: 0.6;
     filter: drop-shadow(0px 10px 7px rgba(0, 0, 0, 0.25));
     border-radius: 10px;

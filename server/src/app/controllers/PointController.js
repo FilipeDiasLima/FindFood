@@ -1,4 +1,3 @@
-const Knex = require('knex');
 const connection = require('../../database/connection')
 
 class PointController {
@@ -11,19 +10,23 @@ class PointController {
       longitude,
       city,
       state,
-      country,
       filters,
     } = request.body;
 
-    const userId = await connection('users').where('id', request.userId).first();
+    // const userId = await connection('users').where('id', request.userId).first();
 
-    if(!userId) {
-      return response.status(400).send({ error: 'User not found!'})
-    } else {
-      if(userId.type === 'client') {
-        return response.status(401).send({ error: 'Only owner can create points'})
-      }
-    }
+    // console.log(userId)
+
+    // if (!userId) {
+    //   return response.status(400).send({ error: 'User not found!' })
+    // } else {
+    //   if (userId.type === 'client') {
+    //     return response.status(401).send({ error: 'Only owner can create points' })
+    //   }
+    // }
+
+    const latitudeNumber = Number(latitude);
+    const longitudeNumber = Number(longitude);
 
     const pointExists = await connection('points').where('latitude', latitude).where('longitude', longitude).first();
 
@@ -35,31 +38,31 @@ class PointController {
 
     const point = {
       image: request.file.filename,
-      image1: request.file.filename,
-      image2: request.file.filename,
       name,
       site,
       phone,
-      latitude,
-      longitude,
+      latitude: latitudeNumber,
+      longitude: longitudeNumber,
       city,
       state,
-      country,
-      user_id: userId.id,
+      user_id: 0,
     }
 
     const ids = await trx('points').insert(point);
 
     const point_id = ids[0];
 
-    const pointFilters = filters.split(',')
-      .map(filter => Number(filter.trim()))
-      .map(filter_id => {
+    const pointFilters = filters
+      .split(',')
+      .map((filter) => Number(filter.trim()))
+      .map((filter_id) => {
         return {
           filter_id,
           point_id,
         };
       })
+
+    console.log(pointFilters);
 
     await trx('point_filters').insert(pointFilters);
 
@@ -83,14 +86,14 @@ class PointController {
       return response.status(401).send({ error: 'Point not found' });
     }
 
-    const filters = await Knex('filters')
+    const filters = await connection('filters')
       .join('point_filters', 'filters.id', '=', 'point_filters.filter_id')
       .where('point_filters.point_id', id)
       .select('name');
 
     const serializedPoint = {
-      ...point
-      // image_url: `http://192.168.0.28:3333/uploads/${point.image}`,
+      ...point,
+      image_url: `http://192.168.0.10:3333/uploads/${point.image}`,
     }
 
     return response.status(200).send({ point: serializedPoint, filters })
@@ -99,37 +102,54 @@ class PointController {
   async index(request, response) {
     const { city, state, filters } = request.query;
 
-    const parsedFilters = filters.split(',').map(filter => Number(filter.trim()));
+    if (city && state && filters) {
+      const parsedFilters = filters.split(',').map(filter => Number(filter.trim()));
 
-    const points = await Knex('points')
-    .join('point_filters', 'points.id', '=', 'point_filters.point_id')
-    .whereIn('point_filters,filter_id', parsedFilters)
-    .where('city', String(city))
-    .where('state', String(state))
-    .distinct()
-    .select('points.*');
+      const points = await connection('points')
+        .join('point_filters', 'points.id', '=', 'point_filters.point_id')
+        .whereIn('point_filters.filter_id', parsedFilters)
+        .where('city', String(city))
+        .where('state', String(state))
+        .distinct()
+        .select('points.*');
 
-    const serializedPoint = points.map(point => {
-      return {
-        ...point
-        // image_url: `http://192.168.0.28:3333/uploads/${point.image}`,
-      }
-    });
+      const serializedPoint = points.map(point => {
+        return {
+          ...point,
+          image_url: `http://192.168.0.10:3333/uploads/${point.image}`,
+        }
+      });
 
-    return response.status(200).send(serializedPoint);
+      return response.status(200).send(serializedPoint);
+    }
+
+    else {
+      const points = await connection('points')
+        .distinct()
+        .select('points.*');
+
+      const serializedPoint = points.map(point => {
+        return {
+          ...point,
+          image_url: `http://192.168.0.10:3333/uploads/${point.image}`,
+        }
+      });
+
+      return response.status(200).send(serializedPoint);
+    }
   }
 
   async delete(request, response) {
     const { id } = request.params;
     const userId = request.userId;
 
-    const pointUser = await connection('points').where('id', id).where('user_id', userId).first();
+    const pointUser = await connection('points').where('id', id).first();
 
-    if(!pointUser) {
+    if (!pointUser) {
       return response.status(401).send({ error: "You can't permission to delete this point!" })
     }
 
-    await connection('points').where('id', id).where('user_id', userId).first().delete();
+    await connection('points').where('id', id).first().delete();
 
     return response.json({ ok: true })
   }

@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FiPhone, FiLink } from 'react-icons/fi';
+import api from '../../api/apiAxios';
 
 import logo_restaurant from '../../assets/restaurante-logo.svg';
 import restaurant1 from '../../assets/restaurante1.jpg';
@@ -7,53 +8,58 @@ import restaurant2 from '../../assets/restaurante2.jpeg';
 
 import ModalImg from '../ModalImg';
 
-import { Container,
-   Header,
-   HeaderText,
-   Tags,
-   Tag,
-   RestaurantImages,
-   MiniImages,
-   Contacts,
-   Phone,
-   LinkWeb,
+import {
+  Container,
+  Header,
+  HeaderText,
+  Tags,
+  Tag,
+  RestaurantImages,
+  MiniImages,
+  Contacts,
+  Phone,
+  LinkWeb,
 } from './styles';
 
-const RestaurantInfo = () => {
+const RestaurantInfo = ({ restaurantId }) => {
+  const [data, setData] = useState()
+
+  useEffect(() => {
+    if (restaurantId) {
+      api.get(`points/${restaurantId}`).then(response => {
+        console.log(response.data)
+        setData(response.data)
+      })
+    }
+  }, [restaurantId])
+
+  console.log('data: ',data)
 
   return (
     <Container>
       <Header>
         <img src={logo_restaurant} alt='Restaurant' />
         <HeaderText>
-          <strong>Jorj-lins</strong>
-          <span>R. Planeta Júpiter, 100 - Aleixo, Manaus - AM, 69060-089</span>
+          <strong>{data ? data.point.name : ''}</strong>
+          <span>{data ? data.point.city : ''} - {data ? data.point.state : ''}</span>
         </HeaderText>
       </Header>
       <Tags>
-        <Tag>Almoço</Tag>
-        <Tag>Jantar</Tag>
-        <Tag>Café</Tag>
-        <Tag>Café</Tag>
-        <Tag>Café</Tag>
-        <Tag>Café</Tag>
-        <Tag>Café</Tag> 
+        {data ? data.filters.map(filter => (
+          <Tag>{filter.name}</Tag>
+        )) : ''}
       </Tags>
       <RestaurantImages>
-        <ModalImg imgSrc={restaurant1} />      
-        <MiniImages>
-          <ModalImg imgSrc={restaurant2} />      
-          <ModalImg imgSrc={restaurant2} />      
-        </MiniImages>
+        <ModalImg imgSrc={data ? data.point.image_url : ''} />
       </RestaurantImages>
       <Contacts>
         <Phone>
           <FiPhone size={30} color='#DFDFE3' />
-          <span>+55 91 5684-6627</span>
+          <span>{data ? data.point.phone : ''}</span>
         </Phone>
         <LinkWeb>
           <FiLink size={30} color='#DFDFE3' />
-          <a target='_blank' href='/home'>https://jorjlinsrestaurant.com</a>
+          <a target='_blank' href='/home'>{data ? data.point.site : ''}</a>
         </LinkWeb>
       </Contacts>
     </Container>
